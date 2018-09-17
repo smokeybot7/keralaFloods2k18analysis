@@ -5,41 +5,66 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.js"></script>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    
+    <link rel="local js" href="dygraph.js" />    
+    <style>
+        .dygraph-legend{
+            right: 0% !important;
+        }
+        
+        .dygraph-legend > span.highlight { border: 1px solid grey; background-color: yellow;}
+        
+        .wrapper{
+            grid-template-columns: 70% 30%;
+            display: grid;
+            grid-row-gap: 2em;
+            grid-column-gap: 3em;
+        }
+        
+    </style>
 </head>
     
 <body>
-<div id="graphdiv2"
-  style="width:960px; height:500px;"></div>
+    <div class= "wrapper">
+        <div id="graphdiv2"></div>
+        <div>
+            <img id="imdgraph">
+        </div>
+    </div>
 <script type="text/javascript">
     $(document).ready(function() {
+    //vals = ['Foo','Bar','Baz','Quux'];
     g2 = new Dygraph(
     document.getElementById("graphdiv2"),
     "rainfall_data.csv", // path to CSV file
     {   
-        width: 480,
-        height: 320,
-
+        width: ($(window).width()/4)*3,
+        height: ($(window).height()/4)*3,
         highlightCircleSize: 2,
         strokeWidth: 1,
         strokeBorderWidth: null,
-
         highlightSeriesOpts: {
           strokeWidth: 3,
           strokeBorderWidth: 1,
-          highlightCircleSize: 5}
+          highlightCircleSize: 5},
+  
      }          // options
   );
+        console.log(g2.getSelection()+1);
         var onclick = function(ev) {
           if (g2.isSeriesLocked()) {
               g2.clearSelection();
+              console.log(0);
           } else {
               g2.setSelection(g2.getSelection(), g2.getHighlightSeries(), true);
+              console.log(g2.getHighlightSeries());
           }
       };
     g2.updateOptions({clickCallback: onclick}, true);
     g2.setSelection(false, 's005');
     //console.log(g);
+        
+    //for linking image
+    $("#imdgraph").attr("src", src1/*enter image link*/);
   });
 </script>
 </body>
