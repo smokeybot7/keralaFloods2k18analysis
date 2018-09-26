@@ -31,8 +31,13 @@
         </div>
     </div>
 <script type="text/javascript">
+    
     $(document).ready(function() {
-    //vals = ['Foo','Bar','Baz','Quux'];
+        
+    // Shift one portion out of line.
+      var highlight_start = 9;
+      var highlight_end = 15;
+        
     g2 = new Dygraph(
     document.getElementById("graphdiv2"),
     "rainfall_data.csv", // path to CSV file
@@ -46,6 +51,23 @@
           strokeWidth: 3,
           strokeBorderWidth: 1,
           highlightCircleSize: 5},
+        underlayCallback: function(canvas, area, g2) {
+            
+            canvas.fillStyle = "rgba(255, 255, 102, 1.0)";
+            function highlight_period(x_start, x_end) {
+                var canvas_left_x = g2.toDomXCoord(x_start);
+                var canvas_right_x = g2.toDomXCoord(x_end);
+                var canvas_width = canvas_right_x - canvas_left_x;
+                canvas.fillRect(canvas_left_x, area.y, canvas_width, area.h);
+            }
+            var first = g2.getValue(6, 0);
+            var w = first;
+            highlight_period(w, w + 3 * 24 * 3600 * 1000);
+            
+            var second = g2.getValue(13, 0);
+            var w = second;
+            highlight_period(w, w + 4 * 24 * 3600 * 1000);
+            }
   
      }          // options
   );
